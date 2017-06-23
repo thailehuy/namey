@@ -142,7 +142,7 @@ module Namey
 
       # this is a bit of a hack obviously, but it checks the sort of data engine being used
       # to figure out how to randomly sort
-      set.order('RANDOM()')
+      set.sort_by{rand}
     end
 
     #
