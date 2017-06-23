@@ -142,15 +142,15 @@ module Namey
 
       # this is a bit of a hack obviously, but it checks the sort of data engine being used
       # to figure out how to randomly sort
-      set.sort_by{rand}
+      set.order(Sequel.lit('RANDOM()'))
     end
 
     #
     # query the db for a name
     #
-    def get_name(src, min_freq = 0, max_freq = 100)     
-      tmp = @db[src.to_sym].where('freq <= ?', max_freq).where('freq >= ?', min_freq).order('RANDOM()')
-      tmp.count > 0 ? tmp.first[:name] : nil
+    def get_name(src, min_freq = 0, max_freq = 100)
+      tmp = @db[src.to_sym].where(freq: min_freq..max_freq).order(Sequel.lit('RANDOM()')).first
+      tmp ? tmp[:name] : nil
     end
   end
 end
