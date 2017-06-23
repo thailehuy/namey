@@ -149,7 +149,7 @@ module Namey
     # query the db for a name
     #
     def get_name(src, min_freq = 0, max_freq = 100)     
-      tmp = random_sort(@db[src.to_sym].filter{(freq >= min_freq) & (freq <= max_freq)})
+      tmp = @db[src.to_sym].where('freq <= ?', max_freq).where('freq >= ?', min_freq).order('RANDOM()')
       tmp.count > 0 ? tmp.first[:name] : nil
     end
   end
